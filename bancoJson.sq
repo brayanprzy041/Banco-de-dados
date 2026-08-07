@@ -1,0 +1,26 @@
+-- 1. Cria a tabela usando o tipo nativo JSON
+CREATE TABLE produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50),
+    detalhes JSON
+);
+
+-- 2. Insere um registro com dados em JSON
+INSERT INTO produtos (nome, detalhes)
+VALUES (
+    'Camiseta',
+    '{"cores": ["vermelho", "azul"], "tamanhos": ["P", "M", "G"]}'
+);
+
+-- 3. Exibe apenas a lista de cores armazenada no JSON
+SELECT
+    JSON_EXTRACT(detalhes, '$.cores') AS cores
+FROM produtos;
+
+-- 4. Exibe apenas os produtos que possuem a cor "vermelho"
+SELECT *
+FROM produtos
+WHERE JSON_CONTAINS(
+    JSON_EXTRACT(detalhes, '$.cores'),
+    '"vermelho"'
+);
